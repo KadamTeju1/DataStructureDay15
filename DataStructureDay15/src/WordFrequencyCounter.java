@@ -1,7 +1,7 @@
 import java.util.LinkedList;
 
 public class WordFrequencyCounter {
-    private static final int SIZE = 10; // Size of the hash table
+    private static final int SIZE = 100; // Size of the hash table (adjust as needed)
     private LinkedList<MyMapNode<String, Integer>>[] hashTable;
 
     public WordFrequencyCounter() {
@@ -44,22 +44,9 @@ public class WordFrequencyCounter {
         return 0; // Word not found
     }
 
-
-}
-class MyMapNode<K, V> {
-    K key;
-    V value;
-    MyMapNode<K, V> next;
-
-    public MyMapNode(K key, V value) {
-        this.key = key;
-        this.value = value;
-        this.next = null;
-    }
-
     public static void main(String[] args) {
-        String sentence = "To be or not to be";
-        String[] words = sentence.split(" ");
+        String paragraph = "Paranoids are not paranoid because they are paranoid but because they keep putting themselves deliberately into paranoid avoidable situations";
+        String[] words = paragraph.split(" ");
 
         WordFrequencyCounter wordCounter = new WordFrequencyCounter();
 
@@ -71,5 +58,16 @@ class MyMapNode<K, V> {
         for (String word : words) {
             System.out.println(word + ": " + wordCounter.getFrequency(word.toLowerCase()));
         }
+    }
+}
+class MyMapNode<K, V> {
+    K key;
+    V value;
+    MyMapNode<K, V> next;
+
+    public MyMapNode(K key, V value) {
+        this.key = key;
+        this.value = value;
+        this.next = null;
     }
 }
