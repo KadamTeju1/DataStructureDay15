@@ -1,10 +1,10 @@
 import java.util.LinkedList;
 
-public class WordFrequencyCounter {
+public class RemoveWordFromPhrase {
     private static final int SIZE = 100; // Size of the hash table (adjust as needed)
     private LinkedList<MyMapNode<String, Integer>>[] hashTable;
 
-    public WordFrequencyCounter() {
+    public RemoveWordFromPhrase() {
         this.hashTable = new LinkedList[SIZE];
     }
 
@@ -31,33 +31,45 @@ public class WordFrequencyCounter {
         list.add(newNode);
     }
 
-    public int getFrequency(String word) {
-        int index = getHash(word);
+    public void removeWord(String wordToRemove) {
+        int index = getHash(wordToRemove);
         if (hashTable[index] != null) {
             LinkedList<MyMapNode<String, Integer>> list = hashTable[index];
-            for (MyMapNode<String, Integer> node : list) {
-                if (node.key.equals(word)) {
-                    return node.value;
-                }
+            list.removeIf(node -> node.key.equals(wordToRemove));
+        }
+    }
+
+    public String reconstructPhrase(String originalPhrase) {
+        String[] words = originalPhrase.split(" ");
+        StringBuilder result = new StringBuilder();
+
+        for (String word : words) {
+            if (!word.equals("")) {
+                result.append(word).append(" ");
             }
         }
-        return 0; // Word not found
+
+        return result.toString().trim();
     }
 
     public static void main(String[] args) {
-        String paragraph = "Paranoids are not paranoid because they are paranoid but because they keep putting themselves deliberately into paranoid avoidable situations";
-        String[] words = paragraph.split(" ");
+        String phrase = "Paranoids are not paranoid because they are paranoid but because they keep putting themselves deliberately into paranoid avoidable situations";
+        String wordToRemove = "avoidable";
 
-        WordFrequencyCounter wordCounter = new WordFrequencyCounter();
+        RemoveWordFromPhrase phraseProcessor = new RemoveWordFromPhrase();
 
+        String[] words = phrase.split(" ");
         for (String word : words) {
-            wordCounter.addWord(word.toLowerCase()); // Case-insensitive
+            phraseProcessor.addWord(word.toLowerCase()); // Case-insensitive
         }
 
-        // Print the frequency of each word
-        for (String word : words) {
-            System.out.println(word + ": " + wordCounter.getFrequency(word.toLowerCase()));
-        }
+        // Remove the specified word
+        phraseProcessor.removeWord(wordToRemove.toLowerCase());
+
+        // Reconstruct the phrase without the removed word
+        String reconstructedPhrase = phraseProcessor.reconstructPhrase(phrase);
+
+        System.out.println(reconstructedPhrase);
     }
 }
 class MyMapNode<K, V> {
